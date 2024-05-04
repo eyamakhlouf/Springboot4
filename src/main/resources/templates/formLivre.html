@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+
+<head>
+	<meta charset="utf-8">
+	<title>Ajout des Livres</title>
+</head>
+
+<body>
+	<div th:replace="template"></div>
+	<div class="container mt-5">
+
+		<div class="card">
+			<div class="card-header" th:if="${mode=='new'}"> Ajout des Livres </div>
+			<div class="card-header" th:if="${mode=='edit'}">Modification des Livres </div>
+			<div class="card-body">
+
+				<form th:action="@{saveLivre}" method="post">
+					<input type="hidden" name="page" class="form-control" th:value="${page}" />
+					<input type="hidden"name="size" class="form-control" th:value="${size}" />
+
+					<div class="form-group">
+						<label class="control-label" hidden>ID Livre :</label>
+						<input type="hidden" name="idLivre" class="form-control" th:value="${livre.idLivre}" />
+					</div>
+
+
+					<div class="form-group">
+						<label class="control-label">Titre Livre:</label>
+						<input type="text" name="titreLivre" class="form-control" th:value="${livre.titreLivre}" />
+						<span th:errors=${livre.titreLivre} class="text-danger"> </span>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label">Auteur de Livre:</label>
+						<input type="text" name="auteur" class="form-control" th:value="${livre.auteur}" />
+
+					</div>
+					<div class="form-group">
+						<label class="control-label">Prix Livre :</label>
+						<input type="text" name="prixLivre" class="form-control" th:value="${livre.prixLivre}" />
+						<span th:errors=${livre.prixLivre} class="text-danger"> </span>
+					</div>
+					<div class="form-group">
+						<label class="control-label">date publication :</label>
+						<input type="date" name="datePublication" class="form-control"
+							th:value="${livre.datePublication}" />
+						<span th:errors=${livre.datePublication} class="text-danger"> </span>
+					</div>
+					
+					
+					<div class="form-group">
+					<label class="control-label">Genre :</label>
+					<!--<select name="genre" class="form-control"
+					th:value="${livre.genre.idGen}"
+					th:if="${!#strings.isEmpty(livre.genre)}" >
+					<option th:each="g:${genres}" th:if="${mode=='edit'}"
+					 th:value="${g.idGen}" th:text="${g.nomGen}"
+					 th:selected="${ g.idGen==livre.genre.idGen}">
+					</option>
+					</select>
+					 s'il s'agit d'un ajout (mode==new) ou d'une modification d'un livre ayant un genre null 
+					<select name="genre" class="form-control"
+					th:if="${#strings.isEmpty(livre.genre)}">
+					<option th:each="g:${genres}" th:value="${g.idGen}"
+					th:text="${g.nomGen}">
+					</option>
+					</select>-->
+					
+					
+					    <select name="genre" class="form-control">
+					        <option th:each="g : ${genres}"
+					                th:value="${g.idGen}"
+					                th:text="${g.nomGen}"
+					                th:selected="${g.idGen == livre.genre?.idGen}"
+					                th:if="${mode == 'edit' || #strings.isEmpty(livre.genre)}">
+					        </option>
+					    </select>
+					</div>
+					
+					
+					
+					
+					
+					
+					
+					
+					<div>
+						<button type="submit" class="btn btn-primary">Valider</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
